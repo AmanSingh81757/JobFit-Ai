@@ -35,12 +35,19 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
           "Suggestion1 Title": "Detailed recommendation",
           "Suggestion2 Title": "Another improvement suggestion"
         },
+        "requirementsNotCovered": {
+          "Graduation Year": "Expected graduation year is [year], but the resume shows [year]",
+          "Other Requirement": "Description of another requirement not met"
+        },
         "jobHighlights": {
           "title": "[Job title if present]",
           "requiredSkills": ["Skill1", "Skill2", ...]
         }
       }
 
+      The skills part in coveredPoints and missingPoints must be smaller as they act as title for the point and its value will be its description.
+      Also limit the maximum number of required skills in jobHighlights to 6 if more pick the 6 most important ones.
+      Also make sure that the graduation year expectation if mentioned is met from the resume. Highlight it in the requirements not covered section.
       Do not include any other explanation or commentary — only return the JSON.
 
       Page Content:
