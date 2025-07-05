@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Resume Analyzer",
+  "name": "JobFit AI",
   "version": "1.0",
   "description": "Analyzes your resume against a job description.",
   "permissions": [
@@ -20,8 +20,10 @@
         "<all_urls>"
       ],
       "js": [
-        "content.js"
-      ]
+        "content.js",
+        "floatingButton.js"
+      ],
+      "run_at": "document_end"
     }
   ]
 }

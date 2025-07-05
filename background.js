@@ -1,5 +1,7 @@
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  if (message.type === "geminiRequest") {
+  if (message.type === "openPopup") {
+    chrome.action.openPopup();
+  } else if (message.type === "geminiRequest") {
     const { resumeData, jobDescription, apiKey } = message;
 
     // Extract MIME type and Base64 data from the data URL
