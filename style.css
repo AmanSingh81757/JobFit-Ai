@@ -164,7 +164,7 @@ button:hover {
 }
 
 .score-number {
-  font-size: 28px;
+  font-size: 24px;
   font-weight: bold;
 }
 
@@ -172,6 +172,7 @@ button:hover {
   font-size: 12px;
   font-weight: 500;
   margin-top: 5px;
+  font: bold;
 }
 
 .summary-text h3 {
@@ -288,7 +289,8 @@ button:hover {
   padding: 0;
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 2px;
+  padding-left: 5px !important;
 }
 
 .skill-tag {

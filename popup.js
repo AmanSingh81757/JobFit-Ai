@@ -164,7 +164,7 @@ document.addEventListener('DOMContentLoaded', () => {
       summarySection.innerHTML = `
         <div class="score-container">
           <div class="score-circle ${scoreClass}">
-            <span class="score-number">${result.matchScore}</span>/10
+            <span class="score-number">${result.matchScore}/10</span>
           </div>
           <div class="score-label">Match Score</div>
         </div>
