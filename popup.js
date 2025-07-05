@@ -8,6 +8,16 @@ document.addEventListener('DOMContentLoaded', () => {
   const analyzeButton = document.getElementById('analyze');
   const analysisDiv = document.getElementById('analysis');
   const resetApiKeyButton = document.getElementById('resetApiKey');
+  let currentTabId = null;
+
+  // Get the current tab to use its ID for storage
+  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+    if (tabs.length > 0) {
+      currentTabId = tabs[0].id;
+      // Once we have the tab ID, check for a saved analysis
+      loadSavedAnalysis();
+    }
+  });
 
   // Check for API key and resume on load
   chrome.storage.local.get(['apiKey', 'resumeFilename'], (data) => {
@@ -38,10 +48,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Reset API key
   resetApiKeyButton.addEventListener('click', () => {
-    chrome.storage.local.remove('apiKey', () => {
+    chrome.storage.local.remove(['apiKey', `analysis_${currentTabId}`], () => {
       apiKeySetup.style.display = 'block';
       mainContent.style.display = 'none';
       apiKeyInput.value = '';
+      analysisDiv.innerHTML = '';
+      analysisDiv.classList.add('hidden');
     });
   });
 
@@ -63,24 +75,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Analyze resume
   analyzeButton.addEventListener('click', () => {
+    if (!currentTabId) return;
     analysisDiv.innerHTML = '<div class="loader"></div>';
     analysisDiv.classList.remove('hidden');
-    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-      chrome.scripting.executeScript({
-        target: { tabId: tabs[0].id },
-        func: () => !!window.isContentScriptInjected,
-      }).then((results) => {
-        if (chrome.runtime.lastError || !results || !results[0] || !results[0].result) {
-          chrome.scripting.executeScript({
-            target: { tabId: tabs[0].id },
-            files: ['content.js'],
-          }).then(() => {
-            window.isContentScriptInjected = true;
+    // Clear previous analysis for the tab before starting a new one
+    chrome.storage.local.remove(`analysis_${currentTabId}`, () => {
+      chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+        chrome.scripting.executeScript({
+          target: { tabId: tabs[0].id },
+          func: () => !!window.isContentScriptInjected,
+        }).then((results) => {
+          if (chrome.runtime.lastError || !results || !results[0] || !results[0].result) {
+            chrome.scripting.executeScript({
+              target: { tabId: tabs[0].id },
+              files: ['content.js'],
+            }).then(() => {
+              window.isContentScriptInjected = true;
+              sendMessageToContentScript(tabs[0].id);
+            });
+          } else {
             sendMessageToContentScript(tabs[0].id);
-          });
-        } else {
-          sendMessageToContentScript(tabs[0].id);
-        }
+          }
+        });
       });
     });
   });
@@ -92,9 +108,24 @@ document.addEventListener('DOMContentLoaded', () => {
   // Listen for analysis results
   chrome.runtime.onMessage.addListener((message) => {
     if (message.type === 'analysisResult') {
+      // Save the result before rendering
+      if (currentTabId) {
+        const analysisData = { data: message.data, timestamp: new Date().getTime() };
+        chrome.storage.local.set({ [`analysis_${currentTabId}`]: analysisData });
+      }
       renderAnalysis(message.data);
     }
   });
+
+  function loadSavedAnalysis() {
+    if (!currentTabId) return;
+    const key = `analysis_${currentTabId}`;
+    chrome.storage.local.get(key, (result) => {
+      if (result[key]) {
+        renderAnalysis(result[key].data);
+      }
+    });
+  }
 
   function renderAnalysis(data) {
     analysisDiv.innerHTML = '';

@@ -113,3 +113,16 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       });
   }
 });
+
+// Clear analysis data when a tab is closed
+chrome.tabs.onRemoved.addListener((tabId) => {
+  chrome.storage.local.remove(`analysis_${tabId}`);
+});
+
+// Clear analysis data when the user navigates to a new page in the same tab
+chrome.tabs.onUpdated.addListener((tabId, changeInfo) => {
+  // We only care about the top-level frame navigating to a new URL
+  if (changeInfo.status === 'loading' && changeInfo.url) {
+    chrome.storage.local.remove(`analysis_${tabId}`);
+  }
+});
