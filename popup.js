@@ -204,12 +204,9 @@ document.addEventListener('DOMContentLoaded', () => {
         analysisDiv.appendChild(notCoveredSection);
       }
 
-      // --- Strengths and Weaknesses ---
-      const pointsSection = document.createElement('div');
-      pointsSection.className = 'points-section';
-
+      // --- Strengths ---
       const coveredDiv = document.createElement('div');
-      coveredDiv.className = 'points-column strengths';
+      coveredDiv.className = 'analysis-section strengths-section';
       coveredDiv.innerHTML = '<h3>Strengths</h3>';
       const coveredList = document.createElement('ul');
       for (const [point, reason] of Object.entries(result.coveredPoints)) {
@@ -218,9 +215,11 @@ document.addEventListener('DOMContentLoaded', () => {
         coveredList.appendChild(item);
       }
       coveredDiv.appendChild(coveredList);
+      analysisDiv.appendChild(coveredDiv);
 
+      // --- Weaknesses ---
       const missingDiv = document.createElement('div');
-      missingDiv.className = 'points-column weaknesses';
+      missingDiv.className = 'analysis-section weaknesses-section';
       missingDiv.innerHTML = '<h3>Weaknesses</h3>';
       const missingList = document.createElement('ul');
       for (const [point, reason] of Object.entries(result.missingPoints)) {
@@ -229,14 +228,11 @@ document.addEventListener('DOMContentLoaded', () => {
         missingList.appendChild(item);
       }
       missingDiv.appendChild(missingList);
-
-      pointsSection.appendChild(coveredDiv);
-      pointsSection.appendChild(missingDiv);
-      analysisDiv.appendChild(pointsSection);
+      analysisDiv.appendChild(missingDiv);
 
       // --- Suggestions ---
       const suggestionsSection = document.createElement('div');
-      suggestionsSection.className = 'analysis-section';
+      suggestionsSection.className = 'analysis-section suggestions-section';
       suggestionsSection.innerHTML = '<h3>Suggestions for Improvement</h3>';
       const suggestionsList = document.createElement('ul');
       for (const [title, detail] of Object.entries(result.suggestions)) {
