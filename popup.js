@@ -76,6 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Analyze resume
   analyzeButton.addEventListener('click', () => {
     if (!currentTabId) return;
+    analyzeButton.disabled = true; // Disable the button
     analysisDiv.innerHTML = '<div class="loader"></div>';
     analysisDiv.classList.remove('hidden');
     // Clear previous analysis for the tab before starting a new one
@@ -114,6 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
         chrome.storage.local.set({ [`analysis_${currentTabId}`]: analysisData });
       }
       renderAnalysis(message.data);
+      analyzeButton.disabled = false; // Re-enable the button
     }
   });
 
@@ -149,9 +151,19 @@ document.addEventListener('DOMContentLoaded', () => {
       // --- Score and Summary ---
       const summarySection = document.createElement('div');
       summarySection.className = 'summary-section';
+
+      let scoreClass = '';
+      if (result.matchScore >= 8) {
+        scoreClass = 'score-high';
+      } else if (result.matchScore >= 5) {
+        scoreClass = 'score-medium';
+      } else {
+        scoreClass = 'score-low';
+      }
+
       summarySection.innerHTML = `
         <div class="score-container">
-          <div class="score-circle">
+          <div class="score-circle ${scoreClass}">
             <span class="score-number">${result.matchScore}</span>/10
           </div>
           <div class="score-label">Match Score</div>
@@ -167,14 +179,29 @@ document.addEventListener('DOMContentLoaded', () => {
       if (result.jobHighlights) {
         const highlightsSection = document.createElement('div');
         highlightsSection.className = 'analysis-section';
-        let skillsList = result.jobHighlights.requiredSkills.map(skill => `<li>${skill}</li>`).join('');
+        let skillsList = result.jobHighlights.requiredSkills.map(skill => `<li class="skill-tag">${skill}</li>`).join('');
         highlightsSection.innerHTML = `
           <h3>Job Highlights</h3>
           <p><strong>Title:</strong> ${result.jobHighlights.title}</p>
           <p><strong>Required Skills:</strong></p>
-          <ul>${skillsList}</ul>
+          <ul class="skills-list">${skillsList}</ul>
         `;
         analysisDiv.appendChild(highlightsSection);
+      }
+
+      // --- Requirements Not Covered ---
+      if (result.requirementsNotCovered && Object.keys(result.requirementsNotCovered).length > 0) {
+        const notCoveredSection = document.createElement('div');
+        notCoveredSection.className = 'analysis-section warning';
+        notCoveredSection.innerHTML = '<h3>Missing Requirements</h3>';
+        const notCoveredList = document.createElement('ul');
+        for (const [req, reason] of Object.entries(result.requirementsNotCovered)) {
+          const item = document.createElement('li');
+          item.innerHTML = `<strong>${req}:</strong> ${reason}`;
+          notCoveredList.appendChild(item);
+        }
+        notCoveredSection.appendChild(notCoveredList);
+        analysisDiv.appendChild(notCoveredSection);
       }
 
       // --- Strengths and Weaknesses ---
@@ -223,6 +250,7 @@ document.addEventListener('DOMContentLoaded', () => {
     } catch (error) {
       console.error('Error parsing analysis data:', error);
       analysisDiv.innerHTML = `<p class="error">An error occurred while parsing the analysis. Please try again.</p><p class="error-details">${data}</p>`;
+      analyzeButton.disabled = false; // Re-enable the button on error
     }
   }
 });

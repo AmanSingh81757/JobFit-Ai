@@ -48,6 +48,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       The skills part in coveredPoints and missingPoints must be smaller as they act as title for the point and its value will be its description.
       Also limit the maximum number of required skills in jobHighlights to 6 if more pick the 6 most important ones.
       Also make sure that the graduation year expectation if mentioned is met from the resume. Highlight it in the requirements not covered section.
+      Be slightly more critical in your evaluation, emphasizing weaknesses and missing requirements more than matched skills.
       Do not include any other explanation or commentary — only return the JSON.
 
       Page Content:
