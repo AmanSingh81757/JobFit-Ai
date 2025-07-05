@@ -8,6 +8,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const analyzeButton = document.getElementById('analyze');
   const analysisDiv = document.getElementById('analysis');
   const resetApiKeyButton = document.getElementById('resetApiKey');
+  const showApiKeyGuideButton = document.getElementById('showApiKeyGuide');
+  const hideApiKeyGuideButton = document.getElementById('hideApiKeyGuide');
+  const apiKeyGuideDiv = document.getElementById('apiKeyGuide');
   let currentTabId = null;
 
   // Get the current tab to use its ID for storage
@@ -55,6 +58,20 @@ document.addEventListener('DOMContentLoaded', () => {
       analysisDiv.innerHTML = '';
       analysisDiv.classList.add('hidden');
     });
+  });
+
+  // Show API Key Guide
+  showApiKeyGuideButton.addEventListener('click', (e) => {
+    e.preventDefault();
+    apiKeySetup.style.display = 'none';
+    apiKeyGuideDiv.style.display = 'block';
+  });
+
+  // Hide API Key Guide
+  hideApiKeyGuideButton.addEventListener('click', (e) => {
+    e.preventDefault();
+    apiKeySetup.style.display = 'block';
+    apiKeyGuideDiv.style.display = 'none';
   });
 
   // Handle new resume upload

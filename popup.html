@@ -1,19 +1,32 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Resume Analyzer</title>
+  <title>JobFit AI</title>
   <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-  <h1>Resume Analyzer</h1>
+  <h1>JobFit AI</h1>
 
   <div id="apiKeySetup">
-    <h2>Setup</h2>
     <div class="input-group">
       <label for="apiKey">Enter your Gemini API Key:</label>
       <input type="password" id="apiKey" placeholder="Your API Key">
       <button id="saveApiKey">Save Key</button>
     </div>
+    <a href="#" id="showApiKeyGuide" class="link-button subtle-link">How to get an API Key?</a>
+  </div>
+
+  <div id="apiKeyGuide" class="hidden">
+    <h3>Generating Your Gemini API Key</h3>
+    <p>Follow these steps to get your API key from Google AI Studio:</p>
+    <ol>
+      <li>Go to <a href="https://aistudio.google.com/app/apikey" target="_blank">Google AI Studio</a>.</li>
+      <li>Sign in with your Google account.</li>
+      <li>Click on <strong>"Get API key in a new project"</strong> or <strong>"Create API key"</strong> if you have an existing project.</li>
+      <li>Copy the generated API key.</li>
+      <li>Paste the API key into the field above and click "Save Key".</li>
+    </ol>
+    <a href="#" id="hideApiKeyGuide" class="link-button subtle-link">Hide Guide</a>
   </div>
 
   <div id="mainContent" style="display: none;">

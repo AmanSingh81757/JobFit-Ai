@@ -45,11 +45,13 @@ h1 {
 /* --- Input & Buttons --- */
 .input-group {
   margin-bottom: 15px;
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
 }
 
 .input-group label {
   display: block;
-  margin-bottom: 5px;
   font-weight: 500;
 }
 
