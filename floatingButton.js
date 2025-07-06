@@ -4,22 +4,22 @@ if (document.getElementById('jobfit-ai-floating-button')) {
 } else {
   const button = document.createElement('button');
   button.id = 'jobfit-ai-floating-button';
-  button.textContent = 'JF';
+  const img = document.createElement('img');
+  img.src = chrome.runtime.getURL('assets/star.png');
+  img.style.width = '26px';
+  img.style.height = '26px';
+  button.appendChild(img);
   button.style.position = 'fixed';
   button.style.bottom = '20px';
   button.style.right = '20px';
   button.style.zIndex = '10000';
-  button.style.backgroundColor = '#f7fcff';
+
   button.style.opacity = '0.7';
-  button.style.color = '#0acfba';
-  button.style.border = 'none';
-  button.style.borderRadius = '50%';
+  button.style.borderRadius = '5px';
   button.style.padding = '10px 15px';
-  button.style.fontSize = '16px';
   button.style.cursor = 'pointer';
   button.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.2)';
-  button.style.transition = 'background-color 0.3s, opacity 0.3s, filter 0.3s';
-  button.style.filter = 'blur(1px)';
+  button.style.transition = 'background-color 0.3s, opacity 0.3s';
 
   let inactivityTimer;
 
@@ -36,18 +36,14 @@ if (document.getElementById('jobfit-ai-floating-button')) {
   };
 
   button.onmouseover = () => {
-    button.style.backgroundColor = '#98e4dc';
-    button.style.color = 'white';
+    button.style.backgroundColor = '#f0fcfb';
     button.style.opacity = '1';
-    button.style.filter = 'blur(0px)';
     resetInactivityTimer();
   };
 
   button.onmouseout = () => {
     button.style.backgroundColor = '#f7fcff';
-    button.style.color = '#0acfba';
     button.style.opacity = '0.7';
-    button.style.filter = 'blur(1px)';
     resetInactivityTimer();
   };
 
