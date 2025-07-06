@@ -15,9 +15,9 @@ if (document.getElementById('jobfit-ai-floating-button')) {
   button.style.zIndex = '10000';
 
   button.style.opacity = '0.7';
-  button.style.borderRadius = '5px';
-  button.style.padding = '10px 15px';
-  button.style.cursor = 'pointer';
+  button.style.borderRadius = '50%';
+  button.style.padding = '12px';
+  button.style.fontSize = '16px';
   button.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.2)';
   button.style.transition = 'background-color 0.3s, opacity 0.3s';
 
