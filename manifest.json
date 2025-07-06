@@ -3,35 +3,26 @@
   "name": "JobFit AI",
   "version": "1.0",
   "description": "Analyzes your resume against a job description.",
-  "permissions": [
-    "storage",
-    "activeTab",
-    "scripting"
-  ],
+  "permissions": ["storage", "activeTab", "scripting"],
   "action": {
     "default_popup": "popup.html"
   },
   "icons": {
-    "16": "assets/jobfit.png",
-    "48": "assets/jobfit.png",
-    "64": "assets/jobfit.png",
-    "96": "assets/jobfit.png",
-    "128": "assets/jobfit.png",
-    "256": "assets/jobfit.png",
-    "512": "assets/jobfit.png"
+    "16": "assets/star.png",
+    "48": "assets/star.png",
+    "64": "assets/star.png",
+    "96": "assets/star.png",
+    "128": "assets/star.png",
+    "256": "assets/star.png",
+    "512": "assets/star.png"
   },
   "background": {
     "service_worker": "background.js"
   },
   "content_scripts": [
     {
-      "matches": [
-        "<all_urls>"
-      ],
-      "js": [
-        "content.js",
-        "floatingButton.js"
-      ],
+      "matches": ["<all_urls>"],
+      "js": ["content.js", "floatingButton.js"],
       "run_at": "document_end"
     }
   ]

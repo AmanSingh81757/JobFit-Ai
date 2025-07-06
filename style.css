@@ -85,7 +85,7 @@ h1 {
 input[type="password"], input[type="text"] {
   width: calc(100% - 22px);
   padding: 10px;
-  border: 1px solid #ddd;
+  border: 1px solid #00dfdf;
   border-radius: 6px;
   font-size: 14px;
 }
@@ -93,18 +93,18 @@ input[type="password"], input[type="text"] {
 button {
   width: 100%;
   padding: 12px;
-  background-color: #1877f2;
+  background-color: #00dfdf;
   color: white;
   border: none;
   border-radius: 6px;
   font-size: 16px;
   font-weight: bold;
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 button:hover {
-  background-color: #166fe5;
+  background-color: #00bebe;
 }
 
 .link-button {
@@ -345,4 +345,19 @@ button:hover {
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+
+.logo-container {
+  height: 40px; /* or any desired height */
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo {
+  height: 400%;
+  width: auto;
+  object-fit: cover;
+  object-position: center;
 }
