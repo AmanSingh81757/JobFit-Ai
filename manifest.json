@@ -11,6 +11,15 @@
   "action": {
     "default_popup": "popup.html"
   },
+  "icons": {
+    "16": "assets/jobfit.png",
+    "48": "assets/jobfit.png",
+    "64": "assets/jobfit.png",
+    "96": "assets/jobfit.png",
+    "128": "assets/jobfit.png",
+    "256": "assets/jobfit.png",
+    "512": "assets/jobfit.png"
+  },
   "background": {
     "service_worker": "background.js"
   },
