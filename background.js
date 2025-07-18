@@ -1,6 +1,26 @@
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.type === "openPopup") {
-    chrome.action.openPopup();
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      if (tabs.length > 0) {
+        const tabId = tabs[0].id;
+        // When the popup is opened programmatically, we need to ensure the content script
+        // has the necessary permissions. We can do this by programmatically injecting it.
+        chrome.scripting.executeScript(
+          {
+            target: { tabId: tabId },
+            files: ["content.js"],
+          },
+          () => {
+            // After ensuring the script is injected and permissions are granted,
+            // we can safely open the popup.
+            chrome.action.openPopup();
+          }
+        );
+      } else {
+        console.error("No active tab found to open the popup.");
+      }
+    });
+    return true; // Indicate async response
   } else if (message.type === "geminiRequest") {
     const { resumeData, jobDescription, apiKey } = message;
 
